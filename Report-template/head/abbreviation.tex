@@ -1,0 +1,31 @@
+\newcommand{\abbrlabel}[1]{\makebox[3cm][l]{\textbf{#1}\ \dotfill}}
+\newenvironment{abbreviations}{\begin{list}{}{\renewcommand{\makelabel}{\abbrlabel}}}{\end{list}}
+
+\chapter*{Thuật ngữ \& từ viết tắt}
+\thispagestyle{empty}
+\pagestyle{empty}
+\addcontentsline{toc}{chapter}{Thuật ngữ \& từ viết tắt}
+\vspace{1.0cm}
+\begin{abbreviations}
+	\item[AES] Advanced Encryption Standard 
+	\item[BLE] Bluetooth Ligh Energy
+	\item[BR/EDR] Basic Rate/Enhanced Data Rate 
+	\item[CBC-MAC] Cipher Block Chaining Message Authentication Code
+	\item[CCM] Counter with CBC-MAC
+	\item[Cloud] Trong phạm vi đề tài, dùng để chỉ nơi lưu trữ dữ liệu trên internet
+	\item[CMAC] Cipher-based Message Authentication Code
+	\item[ECDH] Elliptic-curve Diffie–Hellman
+	\item[GPRS] General Packet Radio Service
+	\item[GSM] Global System for Mobile Communications
+	\item[GUI] Graphical User Interface
+	\item[IPv4] Internet Protocol version 4
+	\item[IPv6] Internet Protocol version 6
+	\item[LPN]  Low power node
+	\item[Mesh] Mạng mesh là mạng mà các phần tử đều có kết nối với nhau
+	\item[MITM] Man-in-the-midle: Chen giữa một kết nối nhằm mục đích xấu
+	\item[Node] Node là một phần tử trong mạng mesh
+	\item[OOB] Out-of-band
+	\item[P2P] Peer-to-peer
+	\item[TTL] Time To Live
+	\item[Sleep] Trạng thái ngủ giúp tiết kiệm năng lượng
+\end{abbreviations}

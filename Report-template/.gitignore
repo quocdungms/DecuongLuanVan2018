@@ -1,0 +1,21 @@
+#Ignore all files
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lot
+*.out
+its-report.pdf
+*.synctex.gz
+*.toc
+Makefile
+*.bcf
+*.run.xml
+*.bak
+*.sav
+
+#except
+#!*/
+#!.gitignore
+#!*.tex

@@ -1,0 +1,33 @@
+\chapter{Kết luận}\label{chap:conclude}
+    \section{Đánh giá kết quả}
+    	\subsection{Thành quả đạt được}
+    	
+    \begin{itemize}
+        \item Tổng kết thành quả của nhóm trong quá trình nghiên cứu lý thuyết về Bluetooth Mesh: nguyên nhân ra đời, tiềm năng cạnh tranh, sơ lược về các lớp trong kiến trúc, cách truyền nhận dữ liệu giữa các node trong mạng, cách quản lý việc kết nối/ngắt kết nối.
+        \item Kết quả nghiên cứu có thể được dùng làm tài liệu tham khảo cho những ai muốn làm quen với Bluetooth Mesh, giúp tiết kiệm thời gian tiếp cận.
+        \item Hiện thực thành công ứng dụng sử dụng giao thức Bluetooth Mesh để giao tiếp. Mặc dù ứng dụng chưa quá hoàn thiện để có thể đưa vào thực tế, tuy nhiên cũng chứng minh được dữ liệu có thể đi theo 2 chiều gửi và nhận.
+    \end{itemize}
+    
+    \subsection{Một số hạn chế của ứng dụng thử nghiệm}
+    \begin{itemize}
+        \item Chưa hỗ trợ thiết lập các thông số một cách linh hoạt: chu kỳ đọc, chu kỳ gửi, thông số cloud,...
+        \item Chưa hỗ trợ lấy thông tin thiết bị
+        \item Chưa hỗ trợ xóa node khỏi mạng
+        \item Chưa hỗ trợ cơ chế xác thực mạnh khi provisioning
+    \end{itemize}
+    \section{Hướng phát triển}
+    Do không đủ nhân lực nên nhóm chưa hiện thực tốt ứng dụng thử nghiệm, tuy nhiên nhóm có đề xuất một số cải tiến để ứng dụng thử nghiệm có thể trở thành ứng dụng trong thực tế:
+    
+    \begin{itemize}
+        \item Tăng khả năng bảo mật bằng cách tăng giảm thông số node cảm biến tối đa trong mạng thông qua node gateway. Ví dụ hiện đang có 2 node cảm biến trong mạng, thông số node tối đa là 2, node cảm biến tiếp theo muốn tham gia vào mạng phải chờ node gateway tăng thông số node tối đa lên mới tham gia được. Bước này giúp tránh việc có node cảm biến tình cờ có được key vào mạng liền vào mạng với ý định xấu.
+        \item Hiện thực giao diện cho node gateway để dễ dàng tiến hành các thao tác cấu hình như: thiết lập chu kỳ đọc dữ liệu, chu kỳ gửi dữ liệu, địa chỉ remote server, số node cảm biến tối đa, xóa node cảm biến ra khỏi mạng,...
+        \item Hiện thực giao diện người dùng lấy dữ liệu từ remote server.
+        \item Hiện thức một giao thức giao tiếp giữa các node để tránh tình trạng nghẽn mạng, quy trình xử lý khi node gateway mất kết nối hoặc node cảm biến mất kết nối.
+    \end{itemize}
+    
+    \subsection{Tiềm năng trong thực tế}
+    \begin{itemize}
+        \item Hệ thống đèn lớn: Yêu cầu chính của hệ thống này là một bộ điều khiển có thể điều khiển một nhóm (có thể là cùng một tầng hoặc cùng một phòng) hay toàn bộ đèn, Bluetooth Mesh cực kỳ thích hợp trong ứng dụng này. Chỉ với một node client điều khiển và hàng ngàn node server với tốc độ đáp ứng nhanh, chức năng điều khiển đơn giản chỉ là bật tắt - thậm chí trong tương lai model này còn hỗ trợ độ mạnh yếu của đèn - là hệ thống có thể hoạt động tốt.
+        \item Hệ thống cảm biến lớn: Những hệ thống như dây chuyền sản xuất tự động trong công nghiệp đòi hỏi có rất nhiều cảm biến đặt rải rác ở nhiều khâu trên dây chuyền. Tất cả các cảm biến đó sẽ gửi toàn bộ thông tin về một node trung tâm, sau đó node trung tâm này sẽ gửi 1 loạt dữ liệu đó lên server hoặc lưu vào một loại database nào đó, vì số lượng cảm biến trong hệ thống rất nhiều nên nếu mỗi node mỗi gửi dữ liệu sẽ dẫn đến một cuộc "DoS" nhẹ!
+        \item Hệ thống theo dõi trong nhà: Rất nhiều cảm biến GPS hiện nay tín hiệu không đủ mạnh để định vị trong nhà, đặc biệt là ở tầng thấp. Bluetooth Mesh có thể khắc phục điểm yếu đó và kết hợp tốt với GPS, chúng ta có thể dựa vào mức độ mạnh yếu của tín hiệu và áp dụng thêm các thuật toán để xác định vị trí cũng như độ cao cụ thể của người hay vật trong nhà với độ chính xác cao.
+    \end{itemize}

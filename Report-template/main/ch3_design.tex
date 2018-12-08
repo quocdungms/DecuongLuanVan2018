@@ -1,0 +1,69 @@
+\chapter{Thiết kế ứng dụng}    
+\section{Phần cứng} 
+    Nhóm sử dụng Kit phát triển PCA10040 sử dụng SoC nRF52832 của Nordic Semiconductor, nguyên nhân nhóm chọn dùng Kit này là vì có hỗ trợ Bluetooth Mesh cùng với một số chức năng chính:
+    \begin{itemize}
+        \item Hỗ trợ ANT/ANT+, Bluetooth low energy, Bluetooth Mesh
+        \item Buttons và LEDs on board
+        \item I/O tương thích với chuẩn Arduino
+        \item SEGGER J-Link OB debugger, có hỗ trợ debug ngoài
+        \item Giao tiếp UART qua cổng COM ảo
+        \item Lập rình drag-and-drop
+        \item Hỗ trợ NFC-A listen mode
+        \item Hỗ trợ mbed
+    \end{itemize}
+ 
+    
+    \begin{figure}[h!]
+    	\begin{center}
+    		\includegraphics[scale=1.3]{images/nrf52-dk.jpg}
+    		\caption{Hình ảnh KIT phát triển PCA10040}
+    	\end{center}
+    \end{figure}
+    \newpage
+    Module 3G SARA click cung cấp giải pháp cho các ứng dụng liên quan đến mạng điện thoại, sử dụng module 3.75G UMTS/HSPA SARA U-201 của U-blox. Module mang đầy đủ các chức năng như kết nối mạng, hỗ trợ TCP/UDP, HTTP và HTTPS, IPv4/IPv6, phát hiện nhiễu, đo cường độ tín hiệu,... 3G SARA hỗ trợ tốc độ gửi nhận dữ liệu lên đến 7.2 Mb/s (nhận) và 5.76 Mb/s (gửi), còn có thực hiện cuộc gọi 3G với chất lượng âm thanh tốt. Nguyên nhân nhóm chọn moule này để kết nối với cloud là vì đã từng dùng trong một dự án khác nên có kinh nghiệm với nó.
+
+    \begin{figure}[h!]
+    	\begin{center}
+    		\includegraphics[scale=0.2, angle=90]{images/3g-sara-click.jpg}
+    		\caption{Hình ảnh module 3G SARA click}
+    	\end{center}
+    \end{figure}
+    \section{Phần mềm}
+            \subsection{S132 Softdevice}
+        S132 Softdevice hiện thực các lớp trong mô hình BLE được viết cho chip nRF52832, hỗ trợ 4 vai trò trong giao thức BLE: Central, Peripheral, Broadcaster, Observer. Softdevice đã được build thành file nạp (.bin), người dùng nạp file vào và tương tác với lớp Softdevice này thông qua API được cung cấp. Nhóm sử dụng phiên bản Softdevice s132 v3.1.0\cite{softdevice}.
+        \begin{figure}[h!]
+        	\begin{center}
+        		\includegraphics[scale=3.0]{images/SoC-Architecture_large.png}
+        		\caption{Các lớp trong một chương trình}
+        	\end{center}
+        \end{figure}
+        \subsection{nRFgo Studio}
+        nRFgo Studio là chương trình dùng để nạp Softdevice cho các KIT phát triển, hỗ trợ nhiều chức năng liên quan đến Bluetooth, hiển thị trạng thái bộ nhớ hiện tại của chip,... 
+        \subsection{Nordic Mesh SDK}
+        Trong đề tài này, nhóm sử dụng nRF5 SDK for Mesh phiên bản v1.0.1 vì đây là phiên bản mới nhất vào thời điểm bắt đầu thực hiện luận văn. Ở thời điểm báo cáo luận văn thì Nordic đã cho ra mắt phiên bản v2.0.1 với một số thay đổi như: thêm chức năng provisioning thông qua GATT (PB-GATT), hỗ trợ chức năng Proxy cho các node và đặc biệt nhất: Mesh stack chính thức hoạt động ổn định. \\
+        
+        Ngoài ra còn có một số tính năng mà Nordic đang và sẽ cung cấp trong SDK này. Lưu ý: Một số tính năng chưa được hiện thực trong phiên bản SDK hiện tại.
+            \begin{itemize}
+                \item Device State Manager (DSM): DSM lưu trữ vào bộ nhớ flash những thông tin như Network key của mạng hiện tại, địa chỉ của các element,... Sau khi quá trình provisioning cho node mới hoàn tất, DSM sẽ lưu trữ thêm các thông tin của model, bao gồm địa chỉ và key để các model khác có thể giao tiếp với model này.
+                \item Device Firmware Update (DFU): DFU giúp lập trình viên cập nhật firmware cho tất cả node trong mạng mà không cần tiếp xúc trực tiếp với từng node bằng cách áp dụng khả năng lan truyền của mesh.
+                \item Hỗ trợ kết nối GATT/GAP, liên kết mạng mesh với các thiết bị như máy tính, điện thoại thông minh,...
+                \item Serial, RTT: Cung cấp kênh giao tiếp giữa chip và máy tính, có thể truyền lệnh hay dữ liệu qua lại.
+            \end{itemize}
+            
+        \subsection{Nordic SDK}
+        SDK này cung cấp các API để người lập trình dễ dàng lập trình trên các dòng chip của Nordic, cụ thể là chip nRF52832 trong đề tài này. Tuy nhiên do phát triển không đồng thời với Mesh SDK nên khi sử dụng chung có thể gây ra xung đột, đặc biệt là các ứng dụng có dùng Softdevice vì đa phần các API của Nordic SDK không tương thích với Softdevice. Nhóm sử dụng Nordic nRF5 SDK v14.2.0\cite{nrf5sdk}.
+    	\subsection{Thư viện giao tiếp module SIM}
+    	Thư viện do nhóm tự phát triển và sử dụng trong một dự án trước đây, nhằm mục đích giao tiếp với module 3G SARA click. Thư viện có sẵn một số API cung cấp chức năng cơ bản như: khởi tạo, nghe gọi, xử lý tin nhắn, GPRS, HTTP request,... Trong đề tài này nhóm hiện thực thêm phần giao tiếp TCP để kết nối với cloud.
+    	\subsection{ThingSpeak}
+    	Nhóm sử dụng một cloud thông dụng dành cho các ứng dụng IoT giám sát đơn giản là ThingSpeak. Dữ liệu sau khi upload lên sẽ được hiển thị dạng biểu đồ và bất kỳ ai có liên kết đều có thể quan sát.
+    	\subsection{Embedded Studio}
+    	Chương trình hoàn toàn miễn phí, đóng vai trò IDE được Nordic khuyên dùng, các ví dụ được cung cấp trong các SDK đều được viết dưới dạng 1 project Segger Embedded Studio. Đặc biệt các project này đã cấu hình sẵn địa chỉ nạp để tránh đụng độ với Softdevice.
+    \section{Mô hình thiết kế}
+    Nhóm sử dụng 3 node, 1 node client đóng vai trò gateway, 2 node server đóng vai trò node cảm biến, trong đó node nằm giữa có thêm chức năng node relay. Node gateway sẽ gieo tiếp với node cảm biến xa nhất thông qua node relay. Dữ liệu cảm biến sẽ đọc từ cảm biến nhiệt on board - dùng để đo nhiệt độ hoạt động của SoC.
+    \begin{figure}[h!]
+    	\begin{center}
+    		\includegraphics[scale=0.7]{images/design-model.png}
+    		\caption{Mô hình thiết kế}
+    	\end{center}
+    \end{figure}
+    
